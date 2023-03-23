@@ -1,0 +1,107 @@
+//Jayden Brown
+//Data Structures and Algorithms
+//Lab 9: Linked Lists
+//This program will create a linked list of integers and then print them out in reverse order
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <fstream>
+
+
+using namespace std;
+
+//create output.txt
+
+ofstream output("output.txt");
+
+//implement a linked list that holds ints
+struct Node {
+	int data;
+	Node* next;
+};
+
+//insert to head function
+void insertToHead(Node*& head, int data) {
+	Node* newNode = new Node;
+	newNode->data = data;
+	newNode->next = head;
+	head = newNode;
+	//print to output.txt
+	output << "Inserting " << data << " to head" << endl;
+	
+}
+
+//function to search the linked list for a user-entered int
+void search(Node* head, int data) {
+	Node* current = head;
+	while (current != NULL) {
+		if (current->data == data) {
+			output << "Found " << data << " in the list." << endl;
+			return;
+		}
+		current = current->next;
+	}
+	output << "Could not find " << data << " in the list." << endl;
+	
+}
+
+//function to delete a node while keeping the list intact
+void deleteNode(Node*& head, int data) {
+	Node* current = head;
+	Node* previous = NULL;
+	while (current != NULL) {
+		if (current->data == data) {
+			if (previous == NULL) {
+				head = current->next;
+			}
+			else {
+				previous->next = current->next;
+			}
+			delete current;
+			return;
+		}
+		previous = current;
+		current = current->next;
+		output << "Deleting " << data << " from the list." << endl;
+	}
+	
+}
+
+//function to print the linked list
+void printList(Node* head) {
+	Node* current = head;
+	while (current != NULL) {
+		output << current->data << " ";
+		current = current->next;
+	}
+	output << endl;
+}
+
+int main() {
+	//first instruction
+	Node* head = NULL;
+	insertToHead(head, 3);
+	insertToHead(head, 2);
+	insertToHead(head, 1);
+	printList(head);
+	
+	//second instruction
+	search(head, 2);
+	printList(head);
+	
+	//third instruction
+	insertToHead(head, 5);
+	insertToHead(head, 4);
+	printList(head);
+	
+	//fourth instruction
+	deleteNode(head, 1);
+	printList(head);
+	
+	//fifth instruction
+	search(head, 2);
+	printList(head);
+	
+	return 0;
+}
